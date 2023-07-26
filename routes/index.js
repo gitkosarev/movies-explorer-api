@@ -1,8 +1,8 @@
 const router = require('express').Router();
 const userRouter = require('./users');
-const cardRouter = require('./cards');
+const movieRouter = require('./movies');
 
 router.use('/users', userRouter);
-router.use('/cards', cardRouter);
+router.use('/movies', movieRouter);
 
 module.exports = router;
