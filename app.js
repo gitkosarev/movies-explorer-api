@@ -10,9 +10,9 @@ const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const NotFoundError = require('./errors/NotFoundError');
-const { urlRegex } = require('./utils/regex');
+/* const { urlRegex } = require('./utils/regex'); */
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3000, ORIGIN = 'https://project.front.nomoredomains.xyz' } = process.env;
 const app = express();
 
 mongoose.connect('mongodb://127.0.0.1:27017/bitfilmsdb');
@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(requestLogger);
 
 app.use(cors({
-  origin: 'https://project.front.nomoredomains.xyz',
+  origin: ORIGIN,
 }));
 
 app.post('/signin', celebrate({
