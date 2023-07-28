@@ -54,19 +54,17 @@ const login = (req, res, next) => {
 
 const createUser = (req, res, next) => {
   const {
-    name, about, avatar, email, password,
+    name, email, password,
   } = req.body;
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
-      name, about, avatar, email, password: hash,
+      name, email, password: hash,
     }))
     .then((result) => {
       res.status(statusCode.HTTP_STATUS_CREATED).send({
         _id: result._id,
         email: result.email,
         name: result.name,
-        about: result.about,
-        avatar: result.avatar,
       });
     })
     .catch((err) => errorHandler(err, next));
@@ -74,24 +72,10 @@ const createUser = (req, res, next) => {
 
 // METHOD: PATCH
 const updateUser = (req, res, next) => {
-  const { name, about } = req.body;
+  const { name, email } = req.body;
   User.findByIdAndUpdate(
     req.user._id,
-    { name, about },
-    { new: true, runValidators: true, upsert: false },
-  )
-    .orFail()
-    .then((result) => {
-      res.send(result);
-    })
-    .catch((err) => errorHandler(err, next));
-};
-
-const updateAvatar = (req, res, next) => {
-  const { avatar } = req.body;
-  User.findByIdAndUpdate(
-    req.user._id,
-    { avatar },
+    { name, email },
     { new: true, runValidators: true, upsert: false },
   )
     .orFail()
@@ -108,5 +92,4 @@ module.exports = {
   login,
   createUser,
   updateUser,
-  updateAvatar,
 };

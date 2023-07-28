@@ -7,7 +7,7 @@ require('dotenv').config();
 
 const router = require('./routes/index');
 const { login, createUser } = require('./controllers/users');
-/* const auth = require('./middlewares/auth'); */
+const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const NotFoundError = require('./errors/NotFoundError');
 /* const { urlRegex } = require('./utils/regex'); */
@@ -41,7 +41,7 @@ app.post('/signup', celebrate({
   }),
 }), createUser);
 
-/* app.use(auth); */
+app.use(auth);
 app.use(router);
 
 app.use((req, res, next) => {

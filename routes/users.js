@@ -1,9 +1,8 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
 
-const { urlRegex } = require('../utils/regex');
 const {
-  getUsers, getCurrentUser, getUserById, updateUser, updateAvatar,
+  getUsers, getCurrentUser, getUserById, updateUser,
 } = require('../controllers/users');
 
 // region: GET
@@ -21,14 +20,8 @@ router.get('/:userId', celebrate({
 router.patch('/me', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30).required(),
-    about: Joi.string().min(2).max(30).required(),
+    email: Joi.string().required().email(),
   }),
 }), updateUser);
-
-router.patch('/me/avatar', celebrate({
-  body: Joi.object().keys({
-    avatar: Joi.string().pattern(urlRegex).required(),
-  }),
-}), updateAvatar);
 
 module.exports = router;
