@@ -7,7 +7,7 @@ require('dotenv').config();
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 const User = require('../models/user');
-const errorHandler = require('../middlewares/error-handler');
+const { handleError } = require('../middlewares/errorHandler');
 const { secret } = require('../utils/constants');
 
 // METHOD: GET
@@ -16,7 +16,7 @@ const getUsers = (req, res, next) => {
     .then((result) => {
       res.send(result);
     })
-    .catch((err) => errorHandler(err, next));
+    .catch((err) => handleError(err, next));
 };
 
 const getCurrentUser = (req, res, next) => {
@@ -25,7 +25,7 @@ const getCurrentUser = (req, res, next) => {
     .then((result) => {
       res.send(result);
     })
-    .catch((err) => errorHandler(err, next));
+    .catch((err) => handleError(err, next));
 };
 
 const getUserById = (req, res, next) => {
@@ -34,7 +34,7 @@ const getUserById = (req, res, next) => {
     .then((result) => {
       res.send(result);
     })
-    .catch((err) => errorHandler(err, next));
+    .catch((err) => handleError(err, next));
 };
 
 // METHOD: POST
@@ -49,7 +49,7 @@ const login = (req, res, next) => {
       );
       res.send({ token });
     })
-    .catch((err) => errorHandler(err, next));
+    .catch((err) => handleError(err, next));
 };
 
 const createUser = (req, res, next) => {
@@ -67,7 +67,7 @@ const createUser = (req, res, next) => {
         name: result.name,
       });
     })
-    .catch((err) => errorHandler(err, next));
+    .catch((err) => handleError(err, next));
 };
 
 // METHOD: PATCH
@@ -82,7 +82,7 @@ const updateUser = (req, res, next) => {
     .then((result) => {
       res.send(result);
     })
-    .catch((err) => errorHandler(err, next));
+    .catch((err) => handleError(err, next));
 };
 
 module.exports = {

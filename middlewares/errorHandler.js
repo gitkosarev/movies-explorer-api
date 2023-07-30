@@ -7,7 +7,7 @@ const ConflictError = require('../errors/ConflictError');
 const InternalServerError = require('../errors/InternalServerError');
 const ForbiddenError = require('../errors/ForbiddenError');
 
-module.exports = (err, next) => {
+module.exports.handleError = (err, next) => {
   if (err instanceof NotFoundError
     || err instanceof ForbiddenError
     || err instanceof BadRequestError
@@ -24,4 +24,9 @@ module.exports = (err, next) => {
   } else {
     next(new InternalServerError('На сервере произошла ошибка'));
   }
+};
+
+module.exports.handleFinalError = (err, req, res, next) => {
+  res.status(err.statusCode).send({ message: err.message });
+  next();
 };

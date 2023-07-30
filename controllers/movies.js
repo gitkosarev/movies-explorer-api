@@ -1,16 +1,17 @@
 const statusCode = require('http2').constants;
 
 const Movie = require('../models/movie');
-const errorHandler = require('../middlewares/error-handler');
+const { handleError } = require('../middlewares/errorHandler');
 const ForbiddenError = require('../errors/ForbiddenError');
 
 // METHOD: GET
 module.exports.getMovies = (req, res, next) => {
-  Movie.find()
+  const owner = req.user._id;
+  Movie.find({ owner })
     .then((result) => {
       res.send(result);
     })
-    .catch((err) => errorHandler(err, next));
+    .catch((err) => handleError(err, next));
 };
 
 // METHOD: POST
@@ -37,7 +38,7 @@ module.exports.createMovie = (req, res, next) => {
     .then((result) => {
       res.status(statusCode.HTTP_STATUS_CREATED).send(result);
     })
-    .catch((err) => errorHandler(err, next));
+    .catch((err) => handleError(err, next));
 };
 
 // METHOD: DELETE
@@ -53,7 +54,7 @@ module.exports.deleteMovie = (req, res, next) => {
       return Movie.findByIdAndRemove(id)
         .orFail()
         .then((removedResult) => res.send(removedResult))
-        .catch((err) => errorHandler(err, next));
+        .catch((err) => handleError(err, next));
     })
-    .catch((err) => errorHandler(err, next));
+    .catch((err) => handleError(err, next));
 };
