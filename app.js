@@ -22,9 +22,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(requestLogger);
 
-app.use(cors({
+// на время тестирования app, вернуть обратно защиту !!!
+/* app.use(cors({
   origin: ORIGIN,
-}));
+})); */
+
+app.use(cors());
 
 app.use(helmet());
 
